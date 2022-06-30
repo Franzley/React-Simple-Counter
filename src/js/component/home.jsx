@@ -1,74 +1,33 @@
 import React, { useState, useEffect } from "react";
-//include images into your bundle
+import ClockDigits from "./ClockDigits.jsx";
 
-const myClock = {
-  color: "white",
-  width: "100%",
-  height: "150px",
-  textAlign: "Center",
-  paddingTop: "50px",
-};
-const myClockBG = {
-  background: "black",
-};
+//include images into your bundle
 
 const Home = () => {
   const [seconds, setSeconds] = useState(0);
-  const [secondsTens, setSecondsTens] = useState(0);
-  const [secondsHun, setSecondsHun] = useState(0);
-  const [secondsThou, setSecondsThou] = useState(0);
-  
+
+  const singleDigit = Math.floor((seconds / 1) % 10);
+  const tensDigit = Math.floor((seconds / 10) % 10);
+  const hundredsDigit = Math.floor((seconds / 100) % 10);
+  const thousandsDigit = Math.floor((seconds / 1000) % 10);
 
   useEffect(() => {
     setTimeout(() => {
-      if (seconds === 9){
-        setSeconds(0)
-        if(secondsTens === 9){
-          setSecondsTens(0);
-          if(secondsHun === 9){
-            setSecondsHun(0)
-            if(secondsThou === 9){
-              setSecondsThou(0)
-            }else{
-              setSecondsThou(secondsThou + 1)
-            }
-          }else{
-            setSecondsHun(secondsHun + 1)
-          }
-        }else{
-          setSecondsTens(secondsTens + 1);
-        }
-      }else{
-        setSeconds(seconds + 1);
-      }
-      
+      setSeconds((seconds) => seconds + 1);
     }, 1000);
   });
-  console.log(useEffect);
 
   return (
-    <div className="d-flex flex-row" style={myClockBG}>
-      <div className="boxes" style={myClock}>
+    <div className="d-flex flex-row clock-BG">
+      <div className="clock-indices">
         <h1>
           <i class="fas fa-clock"></i>
         </h1>
       </div>
-
-      <div className="boxes" style={myClock}>
-        <h1>{secondsThou}</h1>
-      </div>
-
-      <div className="boxes" style={myClock}>
-        <h1>{secondsHun}</h1>
-      </div>
-
-      <div className="boxes" style={myClock}>
-        <h1>{secondsTens}</h1>
-      </div>
-
-      <div className="boxes" style={myClock}>
-        <h1>{seconds}</h1>
-      </div>
+      <ClockDigits value={thousandsDigit}/>
+      <ClockDigits value={hundredsDigit}/>
+      <ClockDigits value={tensDigit}/>
+      <ClockDigits value={singleDigit}/>
     </div>
   );
 };
